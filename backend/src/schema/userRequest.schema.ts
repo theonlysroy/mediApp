@@ -24,3 +24,23 @@ export const deleteUserSchema = z.object({
     id: z.string().uuid(),
   }),
 });
+
+export const getUserDetailsSchema = z.object({
+  query: z.object({
+    fullName: z.string().optional(),
+    email: z.string().optional(),
+    dob: z.string().date().optional(),
+    page: z.string(),
+    limit: z.string(),
+  }),
+});
+
+export const getUserDetailsByIdSchema = z.object({
+  params: z.object({
+    id: z.string().uuid(),
+  }),
+  query: z.object({
+    page: z.string().min(1),
+    limit: z.string().optional(),
+  }),
+});

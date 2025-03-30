@@ -9,6 +9,7 @@ import type {
 import cors from "cors";
 import { ApiError } from "./utils/ApiError";
 import { userRouter } from "./routes/user.route";
+import { fLog } from "./logger";
 
 const app: Express = express();
 
@@ -37,6 +38,7 @@ app.get("*", (req, res, next) => {
 
 // global error handler
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  fLog.error(`[${req.originalUrl}] => ${err}`);
   if (err instanceof ApiError) {
     res.status(err.statusCode).json({
       success: err.success,

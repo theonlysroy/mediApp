@@ -7,6 +7,7 @@ import { dbInsert } from "../repository/dbInsert";
 import { dbUpdate } from "../repository/dbUpdate";
 import { ApiError } from "../utils/ApiError";
 import { ApiResponse } from "../utils/ApiResponse";
+import { dbRead, dbReadTotalItems } from "../repository/dbRead";
 
 export const createUser = async (
   req: Request,
@@ -93,6 +94,62 @@ export const deleteUser = async (
       throw new Error("Failed to delete user. Try again!!");
     }
     res.status(200).json(new ApiResponse(200, "User deleted successfully"));
+  } catch (error: any) {
+    logger.error(error.message);
+    next(error);
+  }
+};
+
+export const getUserDetails = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { page, limit, fullName, email, dob } = req.query;
+    const whereClause = {
+      fullName,
+      email,
+      dob,
+    };
+    const totalPages = dbReadTotalItems("user", limit);
+    const offset = (page - 1) * parseInt(limit) + 1;
+    const result = await dbRead("user", limit, offset, whereClause);
+    if (!result) {
+      logger.info("[getUserDetails] => No user details found.");
+      throw new ApiError(404, "No user details found!!");
+    }
+    res.status(200).json(
+      new ApiResponse(200, "No user details found", {
+        users: result,
+        totalPages,
+        currentPage: page,
+        itemsPerPage: limit,
+      }),
+    );
+  } catch (error: any) {
+    logger.error(error.message);
+    next(error);
+  }
+};
+
+export const getUserDetailsById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { id } = req.params;
+    const result = await dbRead("user", 10, 1, id);
+    if (!result) {
+      logger.info("[getUserDetails] => No user details found.");
+      throw new ApiError(404, "No user details found!!");
+    }
+    res.status(200).json(
+      new ApiResponse(200, "No user details found", {
+        details: result,
+      }),
+    );
   } catch (error: any) {
     logger.error(error.message);
     next(error);
