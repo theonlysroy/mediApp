@@ -1,24 +1,25 @@
 import { prismaClient } from "../../db";
 import type { DbTables } from "./dbInsert";
+import { Prisma } from "@prisma/client";
 
 export async function dbRead<T>(
   tableName: DbTables,
   limit: number = 10,
   offset: number = 0,
   where: any,
-  id?: string | undefined,
+  omit: any,
+  id?: string | null,
 ): Promise<T | Array<any> | null> {
   try {
     if (id) {
       return await (prismaClient as any)[tableName].findUnique({
         where: { id },
-        omit: {
-          password: true,
-        },
+        omit,
       });
     }
-    const tableRecords = await prismaClient.user.findMany({
-      where,
+    const tableRecords = await (prismaClient as any)[tableName].findMany({
+      where: where,
+      omit: omit,
       take: limit,
       skip: offset,
     });
@@ -28,17 +29,20 @@ export async function dbRead<T>(
   }
 }
 
-export async function dbReadTotalItems(
-  tableName: string,
-  itemsPerPage: number,
-): Promise<number | null> {
+export async function dbReadTotalItems(tableName: string): Promise<number> {
   try {
     const totalRecords = await (prismaClient as any)[tableName].count();
     if (!totalRecords) {
-      return null;
+      return -1;
     }
-    return Math.floor(totalRecords / itemsPerPage);
+    return totalRecords;
   } catch (error: any) {
-    return null;
+    return -1;
   }
 }
+
+export async function readUser(
+  where: Prisma.UserWhereInput,
+  limit: number,
+  offset: number,
+) {}

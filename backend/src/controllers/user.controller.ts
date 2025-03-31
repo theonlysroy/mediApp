@@ -58,7 +58,11 @@ export const updateUser = async (
 ) => {
   try {
     const { id } = req.params;
-    const newUserData = req.body;
+    const { fullName, password } = req.body;
+    const newUserData = {
+      fullName,
+      password: await bcrypt.hash(password, 10),
+    };
     const result = await dbUpdate("user", id, newUserData);
     if (result === "no record") {
       logger.error("[updateUser] => User id doesn't exists");
@@ -112,19 +116,32 @@ export const getUserDetails = async (
       email,
       dob,
     };
-    const totalPages = dbReadTotalItems("user", limit);
-    const offset = (page - 1) * parseInt(limit) + 1;
-    const result = await dbRead("user", limit, offset, whereClause);
+    const omitClause = {
+      password: true,
+    };
+
+    const totalCount = await dbReadTotalItems("user");
+    const totalPages = Math.ceil(totalCount / parseInt(limit as string));
+    const offset =
+      (parseInt(page as string) - 1) * parseInt(limit as string) + 1;
+    const result = await dbRead(
+      "user",
+      parseInt(limit as string),
+      offset,
+      whereClause,
+      omitClause,
+      null,
+    );
     if (!result) {
       logger.info("[getUserDetails] => No user details found.");
       throw new ApiError(404, "No user details found!!");
     }
     res.status(200).json(
-      new ApiResponse(200, "No user details found", {
+      new ApiResponse(200, "User details fetched successfully", {
         users: result,
         totalPages,
-        currentPage: page,
-        itemsPerPage: limit,
+        currentPage: parseInt(page as string),
+        itemsPerPage: parseInt(limit as string),
       }),
     );
   } catch (error: any) {
@@ -140,13 +157,16 @@ export const getUserDetailsById = async (
 ) => {
   try {
     const { id } = req.params;
-    const result = await dbRead("user", 10, 1, id);
+    const omitClause = {
+      password: true,
+    };
+    const result = await dbRead("user", 10, 0, {}, omitClause, id);
     if (!result) {
       logger.info("[getUserDetails] => No user details found.");
       throw new ApiError(404, "No user details found!!");
     }
     res.status(200).json(
-      new ApiResponse(200, "No user details found", {
+      new ApiResponse(200, "User details fetched", {
         details: result,
       }),
     );

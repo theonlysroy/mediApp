@@ -39,8 +39,4 @@ export const getUserDetailsByIdSchema = z.object({
   params: z.object({
     id: z.string().uuid(),
   }),
-  query: z.object({
-    page: z.string().min(1),
-    limit: z.string().optional(),
-  }),
 });

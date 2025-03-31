@@ -57,7 +57,7 @@ model SubscriptionPlan {
 model MedicineUsage {
   id             String   @id @default(uuid())
   drug           String
-  targetIllness  String
+  targetIllness  String[]
   dosagePerDay   Int
   durationInDays Int
   supportingDocs String[]

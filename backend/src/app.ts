@@ -10,6 +10,7 @@ import cors from "cors";
 import { ApiError } from "./utils/ApiError";
 import { userRouter } from "./routes/user.route";
 import { fLog } from "./logger";
+import { medicalDetailsRouter } from "./routes/medicalDetails.route";
 
 const app: Express = express();
 
@@ -25,6 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // routes
 app.use("/api/user", userRouter);
+app.use("/api/medical-details", medicalDetailsRouter);
 
 // health route
 app.get("/health", (req, res) => {

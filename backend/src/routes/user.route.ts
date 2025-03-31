@@ -9,27 +9,28 @@ import {
 import validate from "../middlewares/requestValidator";
 import {
   createUserSchema,
+  deleteUserSchema,
   getUserDetailsByIdSchema,
   getUserDetailsSchema,
+  updateUserSchema,
 } from "../schema/userRequest.schema";
 import { upload } from "../middlewares/multer.middleware";
 
 const router = Router();
 
 // create user
-// router.route("/create-user").post(validate(createUserSchema), createUser);
 router.post(
   "/create-user",
-  validate(createUserSchema),
   upload.single("avatar"),
+  validate(createUserSchema),
   createUser,
 );
 
 // update user
-router.route("/update-user/:id").put(updateUser);
+router.route("/update-user/:id").put(validate(updateUserSchema), updateUser);
 
 // delete user (hard delete)
-router.route("/delete-user/:id").delete(deleteUser);
+router.route("/delete-user/:id").delete(validate(deleteUserSchema), deleteUser);
 
 // retrieve user
 router

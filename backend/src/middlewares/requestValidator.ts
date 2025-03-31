@@ -2,6 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 import { ZodError, type ZodSchema } from "zod";
 import { ApiError } from "../utils/ApiError";
 import { consoleLogger as logger } from "../logger/consoleLogger";
+import { fLog } from "../logger";
 
 export default function validate(schema: ZodSchema<any, any>) {
   return async (req: Request, res: Response, next: NextFunction) => {
@@ -18,6 +19,7 @@ export default function validate(schema: ZodSchema<any, any>) {
           message: `${issue.path.join(".")} is ${issue.message}`,
         }));
         logger.error(`${req.originalUrl} => Validations failed`);
+        fLog.error(`${req.originalUrl} => Validations failed`);
         // throw new ApiError(400, "Request validations failed", errorMessages);
         res.status(400).json({
           success: false,
