@@ -5,7 +5,7 @@ export const addMedicineUsageSchema = z.object({
     drug: z.string(),
     targetIllness: z.string().array().min(1),
     dosagePerDay: z.string(),
-    durationInDays: z.number().positive(),
+    durationInDays: z.string().min(1),
   }),
 });
 

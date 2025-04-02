@@ -11,13 +11,19 @@ import {
   addPastSurgeriesSchema,
 } from "../schema/medicalDetailsRequest.schema";
 import { auth } from "../middlewares/auth.middleware";
+import { upload } from "../middlewares/multer.middleware";
 
 const router = Router();
 
 // add medicine usage
 router
   .route("/add-medicine-usage")
-  .post(auth, validate(addMedicineUsageSchema), addMedicineUsage);
+  .post(
+    auth,
+    upload.array("supportingDocs"),
+    validate(addMedicineUsageSchema),
+    addMedicineUsage,
+  );
 
 // add past surgeries
 router
