@@ -1,14 +1,16 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {FC} from 'react';
 // import SplashScreen from '../screens/SplashScreen';
-import AuthScreen from '../screens/Login';
+// import AuthScreen from '../screens/Login';
 import SignupScreen from '../screens/Signup';
 import LoginScreen from '../screens/Login';
+import TabLayout from './TabLayout';
 
 export type RootStackParamsList = {
   Splash?: undefined;
   Login: undefined;
   Signup: undefined;
+  Dashboard: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamsList>();
@@ -37,6 +39,13 @@ const RootNavigator: FC = () => {
         options={{
           headerShown: false,
           animation: 'slide_from_right',
+        }}
+      />
+      <Stack.Screen
+        name="Dashboard"
+        component={TabLayout}
+        options={{
+          headerShown: false,
         }}
       />
     </Stack.Navigator>

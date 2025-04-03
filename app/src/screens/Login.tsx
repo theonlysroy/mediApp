@@ -1,5 +1,5 @@
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -11,6 +11,8 @@ import {
 import {LockIcon, MailIcon} from '../CustomIcons';
 import {RootStackParamsList} from '../navigation/RootNavigator';
 import {authStyles as styles} from '../styles/authStyles';
+import BootSplash from 'react-native-bootsplash';
+import {Alert} from 'react-native';
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamsList,
@@ -26,8 +28,21 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
   const [password, setPassword] = useState('');
 
   const handleSubmit = () => {
-    // In a real app, implement actual authentication
+    // if (!email || !password) {
+    //   Alert.alert('Please fill the form');
+    //   return;
+    // }
+    // if (email === 'admin@admin.com' && password === 'Admin@123') {
+    //   navigation.replace('Dashboard');
+    // } else {
+    //   Alert.alert('Invalid credentials');
+    // }
+    navigation.replace('Dashboard');
   };
+
+  useEffect(() => {
+    BootSplash.hide({fade: true});
+  }, []);
 
   return (
     <KeyboardAvoidingView
