@@ -16,7 +16,7 @@ export default function validate(schema: ZodSchema<any, any>) {
     } catch (error: any) {
       if (error instanceof ZodError) {
         const errorMessages = error.errors.map((issue: any) => ({
-          message: `${issue.path.join(".")} is ${issue.message}`,
+          message: `${issue.path.join(".")} - ${issue.message}`,
         }));
         logger.error(`${req.originalUrl} => Validations failed`);
         fLog.error(`${req.originalUrl} => Validations failed`);

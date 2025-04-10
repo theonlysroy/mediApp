@@ -41,7 +41,6 @@ export const createUser = async (
       throw new ApiError(404, "User creation failed");
     }
 
-    // const { password: hashedPassword, ...data } = result;
     res
       .status(201)
       .json(new ApiResponse(201, "User registered successfully", result));

@@ -11,8 +11,12 @@ import { ApiError } from "./utils/ApiError";
 import { userRouter } from "./routes/user.route";
 import { fLog } from "./logger";
 import { medicalDetailsRouter } from "./routes/medicalDetails.route";
+import { authRouter } from "./routes/auth.route";
 
 const app: Express = express();
+
+// app configurations
+app.set("trust proxy", true);
 
 // middlewares
 app.use(
@@ -27,6 +31,7 @@ app.use(express.urlencoded({ extended: true }));
 // routes
 app.use("/api/user", userRouter);
 app.use("/api/medical-details", medicalDetailsRouter);
+app.use("/api/auth", authRouter);
 
 // health route
 app.get("/health", (req, res) => {
