@@ -8,6 +8,7 @@ import {
 } from '../CustomIcons';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {TabParamsList} from '../navigation/TabLayout';
+import {CommonActions} from '@react-navigation/native';
 
 type ProfileScreenNavigationProp = BottomTabNavigationProp<
   TabParamsList,
@@ -18,14 +19,23 @@ interface ProfileScreenProps {
   navigation: ProfileScreenNavigationProp;
 }
 
-const ProfileScreen: React.FC<ProfileScreenProps> = () => {
+const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
   const menuItems = [
     {icon: BellIcon, title: 'Notifications', color: '#2563eb'},
     {icon: ShieldIcon, title: 'Privacy', color: '#2563eb'},
     {icon: SettingsIcon, title: 'Settings', color: '#2563eb'},
     {icon: HelpCircleIcon, title: 'Help & Support', color: '#2563eb'},
-    {icon: LogoutIcon, title: 'Logout', color: '#ef4444'},
   ];
+
+  const handleLogout = () => {
+    // clear all auth states and tokens
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{name: 'Login'}],
+      }),
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -51,6 +61,10 @@ const ProfileScreen: React.FC<ProfileScreenProps> = () => {
             </Text>
           </TouchableOpacity>
         ))}
+        <TouchableOpacity style={styles.menuItem} onPress={handleLogout}>
+          <LogoutIcon size={24} color={'#ef4444'} />
+          <Text style={[styles.menuText, styles.logoutText]}>Logout</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

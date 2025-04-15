@@ -7,6 +7,7 @@ import {authStyles as styles} from '../styles/authStyles';
 import {useState} from 'react';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamsList} from '../navigation/RootNavigator';
+import {Alert} from 'react-native';
 
 type SignupScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamsList,
@@ -24,6 +25,11 @@ const SignupScreen: React.FC<SignupScreenProps> = ({navigation}) => {
 
   const handleSubmit = () => {
     // In a real app, implement actual authentication
+    if (!email || !password || !name) {
+      Alert.alert('Please fill up all details');
+      return;
+    }
+    navigation.replace('Dashboard');
   };
 
   return (
