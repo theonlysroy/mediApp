@@ -13,6 +13,7 @@ import {RootStackParamsList} from '../navigation/RootNavigator';
 import {authStyles as styles} from '../styles/authStyles';
 import BootSplash from 'react-native-bootsplash';
 import {Alert} from 'react-native';
+import {useAuth} from '../contexts/Auth';
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamsList,
@@ -26,17 +27,19 @@ interface LoginScreenProps {
 const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const {login} = useAuth();
 
-  const handleSubmit = () => {
-    // if (!email || !password) {
-    //   Alert.alert('Please fill the form');
-    //   return;
-    // }
-    // if (email === 'admin@admin.com' && password === 'Admin@123') {
-    //   navigation.replace('Dashboard');
-    // } else {
-    //   Alert.alert('Invalid credentials');
-    // }
+  const handleSubmit = async () => {
+    if (!email || !password) {
+      Alert.alert('Please fill the form');
+      return;
+    }
+    if (email === 'admin@admin.com' && password === 'Admin@123') {
+      login('token');
+      navigation.replace('Dashboard');
+    } else {
+      Alert.alert('Invalid credentials');
+    }
     navigation.replace('Dashboard');
   };
 

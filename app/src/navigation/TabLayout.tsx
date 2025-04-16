@@ -1,10 +1,12 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import HomeScreen from '../screens/Home';
+// import HomeScreen from '../screens/Home';
 import AddMedicineScreen from '../screens/AddMedicine';
 import ProfileScreen from '../screens/Profile';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import StackLayout from './StackLayout';
+import {useEffect} from 'react';
+import BootSplash from 'react-native-bootsplash';
 
 export type TabParamsList = {
   Home: undefined;
@@ -27,6 +29,10 @@ const TabProfileIcon = ({size, color}: {size: number; color: string}) => (
 );
 
 export default function TabLayout() {
+  useEffect(() => {
+    BootSplash.hide({fade: true});
+  }, []);
+
   return (
     <Tabs.Navigator
       screenOptions={{

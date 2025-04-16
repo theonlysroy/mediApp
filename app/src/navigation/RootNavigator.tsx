@@ -1,10 +1,11 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {FC} from 'react';
+import {FC, Fragment} from 'react';
 // import SplashScreen from '../screens/SplashScreen';
 // import AuthScreen from '../screens/Login';
 import SignupScreen from '../screens/Signup';
 import LoginScreen from '../screens/Login';
 import TabLayout from './TabLayout';
+import {useAuth} from '../contexts/Auth';
 
 export type RootStackParamsList = {
   Splash?: undefined;
@@ -16,38 +17,38 @@ export type RootStackParamsList = {
 const Stack = createNativeStackNavigator<RootStackParamsList>();
 
 const RootNavigator: FC = () => {
+  const {token} = useAuth();
+  console.log('token ==>', token);
   return (
-    <Stack.Navigator initialRouteName="Login">
-      {/* <Stack.Screen
-        name="Splash"
-        component={SplashScreen}
-        options={{
-          headerShown: false,
-        }}
-      /> */}
-      <Stack.Screen
-        name="Login"
-        component={LoginScreen}
-        options={{
-          headerShown: false,
-          animation: 'slide_from_right',
-        }}
-      />
-      <Stack.Screen
-        name="Signup"
-        component={SignupScreen}
-        options={{
-          headerShown: false,
-          animation: 'slide_from_right',
-        }}
-      />
-      <Stack.Screen
-        name="Dashboard"
-        component={TabLayout}
-        options={{
-          headerShown: false,
-        }}
-      />
+    <Stack.Navigator>
+      {token === null ? (
+        <Fragment>
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{
+              headerShown: false,
+              animation: 'slide_from_right',
+            }}
+          />
+          <Stack.Screen
+            name="Signup"
+            component={SignupScreen}
+            options={{
+              headerShown: false,
+              animation: 'slide_from_right',
+            }}
+          />
+        </Fragment>
+      ) : (
+        <Stack.Screen
+          name="Dashboard"
+          component={TabLayout}
+          options={{
+            headerShown: false,
+          }}
+        />
+      )}
     </Stack.Navigator>
   );
 };

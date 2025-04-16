@@ -9,6 +9,7 @@ import {
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {TabParamsList} from '../navigation/TabLayout';
 import {CommonActions} from '@react-navigation/native';
+import {useAuth} from '../contexts/Auth';
 
 type ProfileScreenNavigationProp = BottomTabNavigationProp<
   TabParamsList,
@@ -26,9 +27,11 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation}) => {
     {icon: SettingsIcon, title: 'Settings', color: '#2563eb'},
     {icon: HelpCircleIcon, title: 'Help & Support', color: '#2563eb'},
   ];
+  const {logout} = useAuth();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     // clear all auth states and tokens
+    logout();
     navigation.dispatch(
       CommonActions.reset({
         index: 0,
