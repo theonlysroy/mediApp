@@ -104,3 +104,11 @@ export const SyringeIcon: React.FC<CustomIconProps> = ({
   color = '#2563eb',
   ...props
 }) => <FontAwesome6 name={'syringe'} size={size} color={color} {...props} />;
+
+export const CalendarIcon: React.FC<CustomIconProps> = ({
+  size = 40,
+  color = '#2563eb',
+  ...props
+}) => (
+  <FontAwesome6 name={'calendar-days'} size={size} color={color} {...props} />
+);

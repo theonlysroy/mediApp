@@ -13,7 +13,7 @@ const AuthContext = createContext<AuthContextProps>({
 });
 
 const AuthProvider: React.FC<{children: any}> = ({children}) => {
-  const [token, setToken] = useState<string | null>('token');
+  const [token, setToken] = useState<string | null>(null);
 
   const login = (accessToken: string) => {
     try {

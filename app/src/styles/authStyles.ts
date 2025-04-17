@@ -65,4 +65,7 @@ export const authStyles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'Arial',
   },
+  inputText: {
+    color: '#1e293b',
+  },
 });
