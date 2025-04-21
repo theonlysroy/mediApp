@@ -1,5 +1,6 @@
 import React from 'react';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import type {IconProps} from 'react-native-vector-icons/Icon';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -111,4 +112,12 @@ export const CalendarIcon: React.FC<CustomIconProps> = ({
   ...props
 }) => (
   <FontAwesome6 name={'calendar-days'} size={size} color={color} {...props} />
+);
+
+export const FileuploadIcon: React.FC<CustomIconProps> = ({
+  size = 40,
+  color = '#2563eb',
+  ...props
+}) => (
+  <FontAwesome5 name={'file-upload'} size={size} color={color} {...props} />
 );

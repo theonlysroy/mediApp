@@ -68,4 +68,7 @@ export const authStyles = StyleSheet.create({
   inputText: {
     color: '#1e293b',
   },
+  filePicker: {
+    alignItems: 'center',
+  },
 });

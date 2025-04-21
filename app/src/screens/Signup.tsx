@@ -10,6 +10,7 @@ import {RootStackParamsList} from '../navigation/RootNavigator';
 import {Alert} from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import {validateInputs} from '../lib/helpers';
+import ImagePicker from '../components/ImagePicker';
 
 type SignupScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamsList,
@@ -34,10 +35,7 @@ const SignupScreen: React.FC<SignupScreenProps> = ({navigation}) => {
     dob: null,
   });
   const [open, setOpen] = useState(false);
-
-  const handleInputChange = newValue => {
-    console.log(newValue);
-  };
+  const [imageUri, setImageUri] = useState<string | undefined | null>(null);
 
   const handleSubmit = () => {
     if (!validateInputs(signupData)) {
@@ -45,6 +43,7 @@ const SignupScreen: React.FC<SignupScreenProps> = ({navigation}) => {
       return;
     }
     console.log('signup data ==>', signupData);
+    console.log('image data ==>', imageUri);
   };
 
   return (
@@ -56,6 +55,9 @@ const SignupScreen: React.FC<SignupScreenProps> = ({navigation}) => {
         <Text style={styles.subtitle}>
           Sign up to start tracking your health
         </Text>
+        <View style={styles.filePicker}>
+          <ImagePicker imageUri={imageUri} setImageUri={setImageUri} />
+        </View>
 
         <View style={styles.inputContainer}>
           <UserIcon size={20} color="#64748b" style={styles.inputIcon} />
@@ -70,7 +72,6 @@ const SignupScreen: React.FC<SignupScreenProps> = ({navigation}) => {
             autoCapitalize="words"
           />
         </View>
-
         <View style={styles.inputContainer}>
           <MailIcon size={20} color="#64748b" style={styles.inputIcon} />
           <TextInput
@@ -85,7 +86,6 @@ const SignupScreen: React.FC<SignupScreenProps> = ({navigation}) => {
             keyboardType="email-address"
           />
         </View>
-
         <View style={styles.inputContainer}>
           <LockIcon size={20} color="#64748b" style={styles.inputIcon} />
           <TextInput
@@ -99,7 +99,6 @@ const SignupScreen: React.FC<SignupScreenProps> = ({navigation}) => {
             secureTextEntry
           />
         </View>
-
         <View style={styles.inputContainer}>
           <CalendarIcon size={20} color="#64748b" style={styles.inputIcon} />
           <TouchableOpacity style={styles.input} onPress={() => setOpen(true)}>
@@ -124,11 +123,9 @@ const SignupScreen: React.FC<SignupScreenProps> = ({navigation}) => {
             }}
           />
         </View>
-
         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
           <Text style={styles.buttonText}>Sign up</Text>
         </TouchableOpacity>
-
         <TouchableOpacity
           style={styles.switchButton}
           onPress={() => navigation.replace('Login')}>

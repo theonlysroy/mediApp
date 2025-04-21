@@ -27,7 +27,7 @@ interface LoginScreenProps {
 const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const {login} = useAuth();
+  const {login, token} = useAuth();
 
   const handleSubmit = async () => {
     if (!email || !password) {
@@ -36,16 +36,19 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
     }
     if (email === 'admin@admin.com' && password === 'Admin@123') {
       login('token');
-      navigation.replace('Dashboard');
+      navigation.replace('Home');
     } else {
       Alert.alert('Invalid credentials');
     }
-    navigation.replace('Dashboard');
   };
 
   useEffect(() => {
     BootSplash.hide({fade: true});
   }, []);
+
+  if (token) {
+    return navigation.replace('Home');
+  }
 
   return (
     <KeyboardAvoidingView

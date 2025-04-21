@@ -13,6 +13,8 @@ import {
   SyringeIcon,
 } from '../CustomIcons';
 import {HomeStackParamsList} from '../navigation/StackLayout';
+import {useEffect} from 'react';
+import BootSplash from 'react-native-bootsplash';
 
 type HomeScreenNavigationProp = BottomTabNavigationProp<
   HomeStackParamsList,
@@ -41,6 +43,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
       count: 1,
     },
   ];
+
+  useEffect(() => {
+    BootSplash.hide({fade: true});
+  }, []);
 
   return (
     <ScrollView style={styles.container}>

@@ -11,7 +11,7 @@ export type RootStackParamsList = {
   Splash?: undefined;
   Login: undefined;
   Signup: undefined;
-  Dashboard: undefined;
+  Home: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamsList>();
@@ -42,7 +42,7 @@ const RootNavigator: FC = () => {
         </Fragment>
       ) : (
         <Stack.Screen
-          name="Dashboard"
+          name="Home"
           component={TabLayout}
           options={{
             headerShown: false,
